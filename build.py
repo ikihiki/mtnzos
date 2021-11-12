@@ -8,7 +8,7 @@ import subprocess as sp
 from pathlib import Path
 
 ARCH = "x86_64"
-TARGET = ARCH + "-none-efi"
+TARGET = ARCH + "-unknown-uefi"
 CONFIG = "debug"
 QEMU = "qemu-system-" + ARCH
 
@@ -22,7 +22,7 @@ OVMF_VARS = WORKSPACE_DIR / "OVMF_VARS-1024x768.fd"
 def run_build(*flags):
   "Run Cargo-<tool> with the given arguments"
 
-  cmd = ["cargo", "build", "--target", TARGET, *flags]
+  cmd = ["cargo", "+nightly" , "build", "--target", TARGET, *flags]
   sp.run(cmd).check_returncode()
 
 def build_command():
@@ -77,9 +77,10 @@ def run_command():
 
     # Setup monitor
     "-monitor", "vc:1024x768",
+    "-display", "none"
   ]
 
-  sp.run([QEMU] + qemu_flags, cwd=r"C:\\Program Files\\qemu").check_returncode()
+  sp.run([QEMU] + qemu_flags).check_returncode()
 
 def main(args):
   "Runs the user-requested actions"

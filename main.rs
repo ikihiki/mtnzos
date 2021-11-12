@@ -1,15 +1,15 @@
 #![no_std]
 #![no_main]
-#![feature(asm)]
+//#![feature(asm)]
 #![feature(abi_efiapi)]
- //extern crate rlibc;
-// (...)
+//  //extern crate rlibc;
+// // (...)
 extern crate alloc;
-// (...)
+// // (...)
 use crate::alloc::vec::Vec;
-extern crate uefi;
-extern crate uefi_services;
-extern crate log;
+// extern crate uefi;
+// extern crate uefi_services;
+// extern crate log;
 
 
 use uefi::table::boot::*;
@@ -20,8 +20,8 @@ use log::info;
 
 
 #[entry]
-fn uefi_start(_image_handler: uefi::Handle, system_table: SystemTable<Boot>) -> Status {
-    uefi_services::init(&system_table).expect_success("Failed to initialize utils");
+fn uefi_start(_handle: Handle, mut system_table: uefi::table::SystemTable<Boot>) -> Status {
+    uefi_services::init(&mut system_table).unwrap_success();
 
     // reset console before doing anything else
     system_table
