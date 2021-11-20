@@ -1,5 +1,5 @@
 FROM gitpod/workspace-full
 
-RUN RUN bash -cl "rustup toolchain install nightly"
+RUN bash -cl "rustup toolchain install nightly　|| true"
 Run apt-get update
 RUN apt-get install -y qemu-system-x86
